@@ -1,0 +1,91 @@
+# Verifies the published package builds and is consumable on every Node.js version it
+# claims to support, from BOTH module systems. The upstream pipeline that generates
+# this repo exercises a single version and a single loader, so without this matrix
+# those claims are untested.
+#
+# This file is generated — edit it at sdks/backend-sdk/mirror/typescript/ in the
+# api-ts-v3 monorepo, not here.
+
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20', '22', '24']
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+      # No `npm ci`: this repo is a generated mirror and carries no lockfile.
+      - run: npm install
+      - run: npm run build
+
+      # Consume the package the way a merchant does — from a packed tarball in a
+      # separate project — rather than by requiring dist/ in place. Only the
+      # tarball route exercises `files`, `exports` and the per-directory `type`
+      # markers; a direct path import would pass even with all three broken.
+      - name: Install the packed tarball into a scratch consumer
+        run: |
+          npm pack --pack-destination /tmp
+          mkdir -p /tmp/consumer
+          cd /tmp/consumer
+          npm init -y >/dev/null
+          npm install /tmp/maytes-api-client-js-*.tgz
+
+      # Each loader is asserted from a file whose extension forces it, so neither
+      # leg can accidentally pass through the other half of the dual build. The
+      # ESM leg is the one that regresses silently: extensionless relative
+      # imports in emitted output only fail at import time, never at build time.
+      - name: Smoke test — CommonJS require
+        run: |
+          cd /tmp/consumer
+          cat > smoke.cjs <<'JS'
+          const m = require('@maytes/api-client-js');
+          for (const fn of ['createMaytesApiClient', 'verifyWebhookSignature']) {
+            if (typeof m[fn] !== 'function') throw new Error('missing export: ' + fn);
+          }
+          console.log('CJS exports ok on node ' + process.version);
+          JS
+          node smoke.cjs
+
+      - name: Smoke test — ESM import
+        run: |
+          cd /tmp/consumer
+          cat > smoke.mjs <<'JS'
+          import { createMaytesApiClient, verifyWebhookSignature } from '@maytes/api-client-js';
+          for (const [name, fn] of Object.entries({ createMaytesApiClient, verifyWebhookSignature })) {
+            if (typeof fn !== 'function') throw new Error('missing export: ' + name);
+          }
+          console.log('ESM exports ok on node ' + process.version);
+          JS
+          node smoke.mjs
+
+  types:
+    name: Type resolution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      # No `npm ci`: this repo is a generated mirror and carries no lockfile.
+      - run: npm install
+      - run: npm run build
+      # Proves the `exports` map hands every consumer shape the matching `.d.ts`:
+      # node10, node16-from-CJS, node16-from-ESM and bundler resolution must each
+      # land on a declaration file that parses in their own module mode.
+      - name: are-the-types-wrong
+        run: |
+          npm pack --pack-destination /tmp
+          npx --yes @arethetypeswrong/cli@latest /tmp/maytes-api-client-js-*.tgz

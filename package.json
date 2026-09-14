@@ -1,0 +1,68 @@
+{
+  "name": "@maytes/api-client-js",
+  "version": "0.1.0",
+  "description": "Official JavaScript client for the Maytes API \u2014 create, capture and cancel checkouts, with OAuth2 token management and webhook signature verification.",
+  "author": {
+    "name": "Maytes",
+    "url": "https://developers.maytes.co"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kttipay/maytes-api-client-js.git"
+  },
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.esm.json && node scripts/finalize-dist.mjs",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^4.0 || ^5.0",
+    "@types/node": "^20"
+  },
+  "license": "MIT",
+  "homepage": "https://developers.maytes.co",
+  "bugs": {
+    "url": "https://github.com/kttipay/maytes-api-client-js/issues"
+  },
+  "keywords": [
+    "maytes",
+    "checkout",
+    "payments",
+    "api",
+    "sdk",
+    "javascript",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "src",
+    "scripts",
+    "LICENSE",
+    "README.md"
+  ],
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
