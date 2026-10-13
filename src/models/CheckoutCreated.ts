@@ -42,7 +42,7 @@ export interface CheckoutCreated {
      * @type {Date}
      * @memberof CheckoutCreated
      */
-    expiresAt: Date;
+    expiresAt: Date | null;
 }
 
 /**
@@ -69,7 +69,7 @@ export function CheckoutCreatedFromJSONTyped(json: any, ignoreDiscriminator: boo
         'checkoutUuid': json['checkout_uuid'],
         'status': json['status'],
         'checkoutUrl': json['checkout_url'],
-        'expiresAt': (new Date(json['expires_at'])),
+        'expiresAt': (json['expires_at'] == null ? null : new Date(json['expires_at'])),
     };
 }
 
@@ -87,7 +87,7 @@ export function CheckoutCreatedToJSONTyped(value?: CheckoutCreated | null, ignor
         'checkout_uuid': value['checkoutUuid'],
         'status': value['status'],
         'checkout_url': value['checkoutUrl'],
-        'expires_at': value['expiresAt'].toISOString(),
+        'expires_at': value['expiresAt'] == null ? value['expiresAt'] : value['expiresAt'].toISOString(),
     };
 }
 
