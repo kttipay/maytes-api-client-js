@@ -1,6 +1,6 @@
 {
   "name": "@maytes/api-client-js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Official JavaScript client for the Maytes API \u2014 create, capture and cancel checkouts, with OAuth2 token management and webhook signature verification.",
   "author": {
     "name": "Maytes",
