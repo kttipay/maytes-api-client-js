@@ -110,6 +110,12 @@ export interface Checkout {
      * @type {number}
      * @memberof Checkout
      */
+    remainingAmount: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Checkout
+     */
     merchantProcessorFee: number;
     /**
      * 
@@ -142,6 +148,7 @@ export function instanceOfCheckout(value: object): value is Checkout {
     if (!('currency' in value) || value['currency'] === undefined) return false;
     if (!('serviceFee' in value) || value['serviceFee'] === undefined) return false;
     if (!('refundedAmount' in value) || value['refundedAmount'] === undefined) return false;
+    if (!('remainingAmount' in value) || value['remainingAmount'] === undefined) return false;
     if (!('merchantProcessorFee' in value) || value['merchantProcessorFee'] === undefined) return false;
     if (!('merchantServiceFee' in value) || value['merchantServiceFee'] === undefined) return false;
     if (!('lastRefundAt' in value) || value['lastRefundAt'] === undefined) return false;
@@ -171,6 +178,7 @@ export function CheckoutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'currency': json['currency'],
         'serviceFee': FeeFromJSON(json['service_fee']),
         'refundedAmount': json['refunded_amount'],
+        'remainingAmount': json['remaining_amount'],
         'merchantProcessorFee': json['merchant_processor_fee'],
         'merchantServiceFee': json['merchant_service_fee'],
         'lastRefundAt': (json['last_refund_at'] == null ? null : new Date(json['last_refund_at'])),
@@ -201,6 +209,7 @@ export function CheckoutToJSONTyped(value?: Checkout | null, ignoreDiscriminator
         'currency': value['currency'],
         'service_fee': FeeToJSON(value['serviceFee']),
         'refunded_amount': value['refundedAmount'],
+        'remaining_amount': value['remainingAmount'],
         'merchant_processor_fee': value['merchantProcessorFee'],
         'merchant_service_fee': value['merchantServiceFee'],
         'last_refund_at': value['lastRefundAt'] == null ? value['lastRefundAt'] : value['lastRefundAt'].toISOString(),

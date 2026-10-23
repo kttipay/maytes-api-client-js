@@ -19,6 +19,7 @@ Name | Type
 `currency` | string
 `serviceFee` | [Fee](Fee.md)
 `refundedAmount` | number
+`remainingAmount` | number
 `merchantProcessorFee` | number
 `merchantServiceFee` | number
 `lastRefundAt` | Date
@@ -43,6 +44,7 @@ const example = {
   "currency": null,
   "serviceFee": null,
   "refundedAmount": null,
+  "remainingAmount": null,
   "merchantProcessorFee": null,
   "merchantServiceFee": null,
   "lastRefundAt": null,
