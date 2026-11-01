@@ -51,6 +51,7 @@ export interface CreateCheckout422Response {
  */
 export const CreateCheckout422ResponseCodeEnum = {
     InvalidAmount: 'invalid_amount',
+    InvalidFriends: 'invalid_friends',
     AmountBelowMinimum: 'amount_below_minimum',
     InvalidAmountArithmetic: 'invalid_amount_arithmetic',
     CurrencyNotSupported: 'currency_not_supported',

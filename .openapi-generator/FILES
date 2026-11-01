@@ -15,6 +15,9 @@ docs/CheckoutCaptured.md
 docs/CheckoutCreated.md
 docs/CheckoutDiscount.md
 docs/CheckoutFee.md
+docs/CheckoutFriend.md
+docs/CheckoutFriendItem.md
+docs/CheckoutFriends.md
 docs/CreateCheckout401Response.md
 docs/CreateCheckout409Response.md
 docs/CreateCheckout422Response.md
@@ -68,6 +71,9 @@ src/models/CheckoutCaptured.ts
 src/models/CheckoutCreated.ts
 src/models/CheckoutDiscount.ts
 src/models/CheckoutFee.ts
+src/models/CheckoutFriend.ts
+src/models/CheckoutFriendItem.ts
+src/models/CheckoutFriends.ts
 src/models/CreateCheckout401Response.ts
 src/models/CreateCheckout409Response.ts
 src/models/CreateCheckout422Response.ts

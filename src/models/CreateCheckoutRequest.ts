@@ -20,6 +20,13 @@ import {
     CheckoutFeeToJSON,
     CheckoutFeeToJSONTyped,
 } from './CheckoutFee.js';
+import type { CheckoutFriends } from './CheckoutFriends.js';
+import {
+    CheckoutFriendsFromJSON,
+    CheckoutFriendsFromJSONTyped,
+    CheckoutFriendsToJSON,
+    CheckoutFriendsToJSONTyped,
+} from './CheckoutFriends.js';
 import type { CustomerData } from './CustomerData.js';
 import {
     CustomerDataFromJSON,
@@ -139,6 +146,12 @@ export interface CreateCheckoutRequest {
      * @memberof CreateCheckoutRequest
      */
     allocationModel?: CreateCheckoutRequestAllocationModelEnum | null;
+    /**
+     * Who the customer is expected to split with. Pre-fills their share and allocation screens; the customer can still change it. Personal data — send it only when you hold it.
+     * @type {CheckoutFriends}
+     * @memberof CreateCheckoutRequest
+     */
+    friends?: CheckoutFriends | null;
 }
 
 
@@ -188,6 +201,7 @@ export function CreateCheckoutRequestFromJSONTyped(json: any, ignoreDiscriminato
         'customerData': json['customer_data'] == null ? undefined : CustomerDataFromJSON(json['customer_data']),
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
         'allocationModel': json['allocation_model'] == null ? undefined : json['allocation_model'],
+        'friends': json['friends'] == null ? undefined : CheckoutFriendsFromJSON(json['friends']),
     };
 }
 
@@ -216,6 +230,7 @@ export function CreateCheckoutRequestToJSONTyped(value?: CreateCheckoutRequest |
         'customer_data': CustomerDataToJSON(value['customerData']),
         'metadata': value['metadata'],
         'allocation_model': value['allocationModel'],
+        'friends': CheckoutFriendsToJSON(value['friends']),
     };
 }
 

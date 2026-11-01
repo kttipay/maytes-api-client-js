@@ -20,6 +20,7 @@ Name | Type
 `customerData` | [CustomerData](CustomerData.md)
 `metadata` | { [key: string]: any; }
 `allocationModel` | string
+`friends` | [CheckoutFriends](CheckoutFriends.md)
 
 ## Example
 
@@ -42,6 +43,7 @@ const example = {
   "customerData": null,
   "metadata": null,
   "allocationModel": null,
+  "friends": null,
 } satisfies CreateCheckoutRequest
 
 console.log(example)
