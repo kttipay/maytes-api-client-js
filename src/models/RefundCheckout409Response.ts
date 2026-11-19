@@ -50,7 +50,8 @@ export interface RefundCheckout409Response {
  * @export
  */
 export const RefundCheckout409ResponseCodeEnum = {
-    NotRefundable: 'not_refundable'
+    NotRefundable: 'not_refundable',
+    PaymentHasChargeback: 'payment_has_chargeback'
 } as const;
 export type RefundCheckout409ResponseCodeEnum = typeof RefundCheckout409ResponseCodeEnum[keyof typeof RefundCheckout409ResponseCodeEnum];
 

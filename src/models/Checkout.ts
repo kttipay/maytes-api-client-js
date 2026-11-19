@@ -46,7 +46,7 @@ export interface Checkout {
      */
     status: string;
     /**
-     * 
+     * Always null. Will be removed in a future API version.
      * @type {string}
      * @memberof Checkout
      */
