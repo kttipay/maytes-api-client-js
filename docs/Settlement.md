@@ -22,6 +22,7 @@ Name | Type
 `reviewedByUserUuid` | string
 `reviewedAt` | Date
 `rejectionReason` | string
+`upsell` | [SettlementUpsell](SettlementUpsell.md)
 `createdAt` | Date
 `updatedAt` | Date
 
@@ -48,6 +49,7 @@ const example = {
   "reviewedByUserUuid": null,
   "reviewedAt": null,
   "rejectionReason": null,
+  "upsell": null,
   "createdAt": null,
   "updatedAt": null,
 } satisfies Settlement

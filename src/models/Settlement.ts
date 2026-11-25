@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime.js';
+import type { SettlementUpsell } from './SettlementUpsell.js';
+import {
+    SettlementUpsellFromJSON,
+    SettlementUpsellFromJSONTyped,
+    SettlementUpsellToJSON,
+    SettlementUpsellToJSONTyped,
+} from './SettlementUpsell.js';
+
 /**
  * 
  * @export
@@ -117,6 +125,12 @@ export interface Settlement {
     rejectionReason: string | null;
     /**
      * 
+     * @type {SettlementUpsell}
+     * @memberof Settlement
+     */
+    upsell: SettlementUpsell | null;
+    /**
+     * 
      * @type {Date}
      * @memberof Settlement
      */
@@ -149,6 +163,7 @@ export function instanceOfSettlement(value: object): value is Settlement {
     if (!('reviewedByUserUuid' in value) || value['reviewedByUserUuid'] === undefined) return false;
     if (!('reviewedAt' in value) || value['reviewedAt'] === undefined) return false;
     if (!('rejectionReason' in value) || value['rejectionReason'] === undefined) return false;
+    if (!('upsell' in value) || value['upsell'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
     return true;
@@ -180,6 +195,7 @@ export function SettlementFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'reviewedByUserUuid': json['reviewed_by_user_uuid'],
         'reviewedAt': (json['reviewed_at'] == null ? null : new Date(json['reviewed_at'])),
         'rejectionReason': json['rejection_reason'],
+        'upsell': SettlementUpsellFromJSON(json['upsell']),
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),
     };
@@ -212,6 +228,7 @@ export function SettlementToJSONTyped(value?: Settlement | null, ignoreDiscrimin
         'reviewed_by_user_uuid': value['reviewedByUserUuid'],
         'reviewed_at': value['reviewedAt'] == null ? value['reviewedAt'] : value['reviewedAt'].toISOString(),
         'rejection_reason': value['rejectionReason'],
+        'upsell': SettlementUpsellToJSON(value['upsell']),
         'created_at': value['createdAt'].toISOString(),
         'updated_at': value['updatedAt'].toISOString(),
     };
